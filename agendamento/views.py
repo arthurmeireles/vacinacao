@@ -225,6 +225,11 @@ def chamar_fila(request, id):
         local=agendamento.estabelecimento
     )
 
+    vacina = EstoqueVacina.objects.filter(vacina=agendamento.vacina, estabelecimento=agendamento.estabelecimento).first()
+    vacina.qtd -= 1
+    if vacina.qtd >= 0:
+        vacina.save()
+
     mensagem = """
                 Prezado(a) %s,
                 A sua aplicaçao da vacina %s foi registrada no local e horário abaixo.
