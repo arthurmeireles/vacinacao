@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Sistema de Vacinação</title>
+    <link rel="icon" type="image/png" href="{% static 'img/letter-v-icon-17.jpg' %}" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style-admin.css' %}">
+
+    {% if debug %}
+        <style>
+            .navbar-default {
+                background-color: #e74c3c;
+            }
+        </style>
+    {% endif %}
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="" style="padding-top:7.5px !important;">
+                <img alt="Brand" height="180%" src="{% static 'img/logo.png' %}"/>
+            </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'index' %}">Inicio</a></li>
+                {% if request.session.perfil == "coordenador" %}
+                <li class="visible-sm visible-xs"><a href="{% url 'estabelecimentos' %}">Estabelecimentos de Saúde</a></li>
+                {% endif %}
+                <li class="visible-sm visible-xs"><a href="{% url 'fila_agendamento' %}">Fila de Agendamentos</a></li>
+                {% if request.session.perfil == "profissional" %}
+                <li class="visible-sm visible-xs">
+                    <a href="{% url 'horario_estabelecimento' %}">Horários de Agendamento</a>
+                </li>
+                {% endif %}
+                <li class="visible-sm visible-xs">
+                    <a href="{% url 'cartao_vacina' %}">Meu Cartão de Vacina</a>
+                </li>
+                <li class="visible-sm visible-xs">
+                    <a href="{% url 'agendamentos' %}">Meus Agendamentos</a>
+                </li>
+                {% if request.session.perfil == "coordenador" %}
+                <li class="visible-sm visible-xs">
+                    <a href="{% url 'municipios' %}">Municípios</a>
+                </li>
+                <li class="visible-sm visible-xs">
+                    <a href="{% url 'usuarios' %}">Usuários</a>
+                </li>
+                {% endif %}
+                {% if request.session.perfil == "coordenador" or request.session.perfil == "profissional"%}
+                <li class="visible-sm visible-xs">
+                    <a href="{% url 'vacinas' %}">Vacinas</a>
+                </li>
+                {% endif %}
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-user"></span>
+                        <span class="dropdown-user">
+                            {% if request.user.is_authenticated %}
+                                {{ request.user.username }}
+                            {% else %}
+                                Anonimo
+                            {% endif %}
+                        </span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'logout_aplicacao' %}">Sair</a></li>
+                        {% if request.session.perfil == "profissional" %}
+                        <li><a href="{% url 'alterar_vinculo' %}">Alterar Vínculo</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<section class="container-fluid pb20">
+    <div class="row">
+        <div class="col-md-3 visible-md visible-lg">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </div>
+                    <input class="form-control live-search-box" type="text" role="search"
+                           placeholder="Buscar no menu">
+                </div>
+            </div>
+
+            <div class="list-group live-search-list">
+                <a href="{% url 'index' %}" class="list-group-item">
+                    Inicio
+                </a>
+                {% if request.session.perfil == "coordenador" %}
+                <a href="{% url 'estabelecimentos' %}" class="list-group-item">
+                    Estabelecimentos de Saúde
+                </a>
+                {% endif %}
+                <a href="{% url 'fila_agendamento' %}" class="list-group-item">
+                    Fila de Agendamentos
+                </a>
+                {% if request.session.perfil == "profissional" %}
+                <a href="{% url 'horario_estabelecimento' %}" class="list-group-item">
+                    Horários de Agendamento
+                </a>
+                {% endif %}
+                <a href="{% url 'cartao_vacina' %}" class="list-group-item">
+                    Meu Cartão de Vacina
+                </a>
+                <a href="{% url 'agendamentos' %}" class="list-group-item">
+                    Meus Agendamentos
+                </a>
+                {% if request.session.perfil == "coordenador" %}
+                <a href="{% url 'municipios' %}" class="list-group-item">
+                    Municípios
+                </a>
+                <a href="{% url 'usuarios' %}" class="list-group-item">
+                    Usuários
+                </a>
+                {% endif %}
+                {% if request.session.perfil == "coordenador" or request.session.perfil == "profissional"%}
+                <a href="{% url 'vacinas' %}" class="list-group-item">Vacinas</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-9">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% block breadcrumb %}{% endblock %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</section>
+
+
+<!-- JS -->
+<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/live-search.js' %}"></script>
+<script>
+</script>
+
+{% block extra_js %}{% endblock %}
+</body>
+</html>

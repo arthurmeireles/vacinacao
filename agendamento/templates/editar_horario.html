@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+{% load admin_extras%}
+{% block extra_css %}
+{{ form.media.css }}
+<style>
+    td{
+        width: 100%;
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li><a href="/">Início</a></li>
+    <li><a href="{% url 'horario_estabelecimento' %}">Horários</a></li>
+    <li class="active">Editar</li>
+</ol>
+{% endblock %}
+
+
+{% block content %}
+<h2 class="page-title">Horários - Estabelecimento {{estabelecimento.nome_fantasia}} - Vacina {{vacina.nome}}</h2>
+
+<form id="dados" class="underline-form" action="" method="post">
+    {% csrf_token %}
+    <div class="panel panel-primary">
+        <div class="panel-heading"><h4 class="panel-title">Horários Disponíveis</h4></div>
+
+        <div class="panel-body" id="form_set">
+            {{ myformset.management_form }}
+            <div id="form_set">
+                {% for formulario in myformset.forms %}
+                {% for hidden in formulario.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+                {{formulario.non_field_errors}}
+                {{formulario.errors}}
+                <table class='no_error'>
+                    {{ formulario }}
+                </table>
+                <hr>
+            {% endfor %}
+            </div>
+            <div id="empty_form" style="display:none">
+                <table class='no_error'>
+                    {{ myformset.empty_form }}
+                </table>
+            </div>
+
+        </div>
+    </div>
+    
+</form>
+<input type="button" value="Adicionar Horário" id="add_more" class="btn btn-primary">
+
+
+<button type="submit" form="dados" name="salvar" class="btn btn-success pull-right">
+    Salvar Horários
+</button>
+<!-- <a class="btn btn-default" href="{% url 'horario_estabelecimento' %}">Cancelar</a> -->
+{% endblock %}
+
+
+{% block extra_js %}
+    {{ form.media.js }}
+
+    <script src="{% static 'js/select2.full.min.js' %}"></script>
+    <script>
+        $('#add_more').click(function() {
+            var form_idx = $('#id_form-TOTAL_FORMS').val();
+            $('#form_set').append("<hr>");
+            $('#form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+            
+            $('#id_form-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+        });
+    </script>
+
+{% endblock %}

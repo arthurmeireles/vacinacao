@@ -1,0 +1,43 @@
+.schedule-rows td {
+  width: 200px;
+  height: 30px;
+  margin: 3px;
+  padding: 5px;
+  border: 1.5px solid white;
+  background-color: #eee;
+  cursor: pointer;
+}
+.schedule-rows td:first-child {
+  background-color: transparent;
+  text-align: right;
+  position: relative;
+  top: -12px;
+}
+.schedule-rows td[data-selected],
+.schedule-rows td[data-selecting] {
+  background-color: #3498db;
+}
+.schedule-rows td[data-disabled] {
+  opacity: 0.55;
+}
+.schedule-rows td[disabled] {
+  background-color: #f39c12;
+}
+.schedule-rows td[desabilitado] {
+  background-color: #eee;
+}
+.carousel-control.left, .carousel-control.right {
+  background-image: none !important;
+}
+.time-label {
+    width: 80px !important;
+    text-align: center !important;
+    background-color: #eee !important;
+}
+.schedule-rows td:first-child {
+  top: 0 !important;
+}
+.schedule-header tr th {
+  background-color: #eee !important;
+  border: 2px solid white !important;
+}

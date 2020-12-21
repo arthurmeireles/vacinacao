@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% load static %}
+{% load admin_extras %}
+{% load bootstrap_pagination %}
+
+{% block extra_css %}
+{{ form.media.css }}
+{% endblock %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li><a href="">Início</a></li>
+    <li class="active">Estabelecimentos de Saúde</li>
+</ol>
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <h2 class="custom-page-title">Estabelecimentos de Saúde ({{ estabelecimentos.paginator.count }})</h2>
+    </div>
+    <div class="clearfix visible-xs-block visible-sm-block"><br></div>
+    <div class="col-md-3">
+        <a href="{% url 'novo_estabelecimento' %}" class="btn btn-primary btn-block">
+            Novo Estabelecimento
+        </a>
+    </div>
+    <div class="col-md-3">
+        <button type="button" class="btn btn-default btn-block" data-toggle="modal" data-target="#import-estabelecimento"
+        data-backdrop="static" data-keyboard="false">
+            Importar Estabelecimentos
+        </button>
+    </div>
+</div>
+<div class="underline"></div>
+
+{% if form.errors %}
+<div class="alert alert-warning alert-dismissable">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+    Verifique os campos do filtro
+</div>
+{% endif %}
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a class="a-span" role="button" data-toggle="collapse" data-parent="#accordion"
+                   href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Busca
+                </a>
+            </h4>
+        </div>
+
+        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+                {{ form.errors }}
+
+                <form action="" method="get">
+                    <div class="row">
+                        {% for field in form %}
+                        <div class="{% if forloop.counter < 5 %} col-md-12 {% else %} col-md-6 {% endif %}">
+                            <div class="form-group">
+                                {{ field.label_tag }}
+                                {{ field|add_css_class:"form-control" }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="underline"></div>
+
+                    <button class="btn btn-success pull-right" type="submit">Buscar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr class="success">
+            <th>Código CNES</th>
+            <th>Nome</th>
+            <th>Logradouro</th>
+            <th>Cidade</th>
+            <th>Telefone</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for estabelecimento in estabelecimentos %}
+        <tr>
+            <td>{{ estabelecimento.codigo_cnes }}</td>
+            <td>{{ estabelecimento.nome_fantasia }}</td>
+            <td>{%if estabelecimento.logradouro%}
+                {{ estabelecimento.logradouro }}
+                {% else %}
+                - 
+                {%endif %}</td>
+            <td>{{ estabelecimento.municipio.nome}}/{{estabelecimento.municipio.estado.sigla}}</td>
+            <td>{%if estabelecimento.telefone%}
+                {{ estabelecimento.telefone }}
+                {% else %}
+                - 
+                {%endif %}</td>
+            <td>
+                <a href="{% url 'editar_estabelecimento' estabelecimento.id %}"
+                   class="btn btn-info btn-sm">
+                    Editar
+                </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td class="text-center" colspan="7">Nenhum estabelecimento disponivel</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="import-estabelecimento" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-center">Importar Estabelecimentos</h4>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'upload_csv' %}" method="POST" id="upload-estabelecimentos" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="file1">Fazer o upload dos estabelecimentos para importação</label>
+                    <br>
+                    <input type="file" id="file1" name="file">
+                    <small>Só serão aceitos arquivos CSV</small>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
+                <button type="submit" form="upload-estabelecimentos" class="btn btn-success">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<nav class="visible-lg visible-md" aria-label="Page navigation">
+    <ul class="pagination">
+        {% bootstrap_paginate estabelecimentos range=5 show_prev_next="true" show_first_last="true" %}
+    </ul>
+</nav>
+
+<nav class="visible-sm visible-xs" aria-label="Page navigation">
+    <ul class="pagination">
+        {% bootstrap_paginate estabelecimentos range=3 show_prev_next="true" show_first_last="true" %}
+    </ul>
+</nav>
+{% endblock %}
+
+
+{% block extra_js %}
+{{ form.media.js }}
+<script type="text/javascript">
+    $(function(){
+        setSelect2($("#id_municipio"), "{% url 'buscar_municipio' %}");
+        $(".select2").css("width", "100%");
+    });
+</script>
+{% endblock %}

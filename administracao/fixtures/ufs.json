@@ -1,0 +1,218 @@
+[
+    {
+      "model": "administracao.unidadefederativa",
+      "pk": 11,
+      "fields": {
+        "sigla": "RO",
+        "nome": "Rondônia"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 12,
+      "fields": {
+        "sigla": "AC",
+        "nome": "Acre"
+      }
+    }, 
+  {
+      "model": "administracao.unidadefederativa",
+      "pk": 13,
+      "fields": {
+        "sigla": "AM",
+        "nome": "Amazonas"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 14,
+      "fields": {
+        "sigla": "RR",
+        "nome": "Roraima"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 15,
+      "fields": {
+        "sigla": "PA",
+        "nome": "Pará"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 16,
+      "fields": {
+        "sigla": "AP",
+        "nome": "Amapá"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 17,
+      "fields": {
+        "sigla": "TO",
+        "nome": "Tocantins"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 21,
+      "fields": {
+        "sigla": "MA",
+        "nome": "Maranhão"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 22,
+      "fields": {
+        "sigla": "PI",
+        "nome": "Piauí"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 23,
+      "fields": {
+        "sigla": "CE",
+        "nome": "Ceará"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 24,
+      "fields": {
+        "sigla": "RN",
+        "nome": "Rio Grande do Norte"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 25,
+      "fields": {
+        "sigla": "PB",
+        "nome": "Paraíba"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 26,
+      "fields": {
+        "sigla": "PE",
+        "nome": "Pernambuco"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 27,
+      "fields": {
+        "sigla": "AL",
+        "nome": "Alagoas"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 28,
+      "fields": {
+        "sigla": "SE",
+        "nome": "Sergipe"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 29,
+      "fields": {
+        "sigla": "BA",
+        "nome": "Bahia"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 31,
+      "fields": {
+        "sigla": "MG",
+        "nome": "Minas Gerais"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 32,
+      "fields": {
+        "sigla": "ES",
+        "nome": "Espírito Santo"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 33,
+      "fields": {
+        "sigla": "RJ",
+        "nome": "Rio de Janeiro"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 35,
+      "fields": {
+        "sigla": "SP",
+        "nome": "São Paulo"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 41,
+      "fields": {
+        "sigla": "PR",
+        "nome": "Paraná"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 42,
+      "fields": {
+        "sigla": "SC",
+        "nome": "Santa Catarina"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 43,
+      "fields": {
+        "sigla": "RS",
+        "nome": "Rio Grande do Sul"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 50,
+      "fields": {
+        "sigla": "MS",
+        "nome": "Mato Grosso do Sul"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 51,
+      "fields": {
+        "sigla": "MT",
+        "nome": "Mato Grosso"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 52,
+      "fields": {
+        "sigla": "GO",
+        "nome": "Goiás"
+      }
+    },
+   {
+      "model": "administracao.unidadefederativa",
+      "pk": 53,
+      "fields": {
+        "sigla": "DF",
+        "nome": "Distrito Federal"
+      }
+    }
+  ]

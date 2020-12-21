@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% load admin_extras %}
+{% load bootstrap_pagination %}
+
+{% block extra_css %}
+{{ form.media.css }}
+{% endblock %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li><a href="">Início</a></li>
+</ol>
+{% endblock %}
+
+
+{% block content %}
+
+{% endblock %}
+
+
+{% block extra_js %}
+{{ form.media.js }}
+<script type="text/javascript">
+    $(function(){
+        setSelect2($("#id_municipio"), "{% url 'buscar_municipio' %}");
+        $(".select2").css("width", "100%");
+    });
+</script>
+{% endblock %}

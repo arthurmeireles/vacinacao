@@ -1,0 +1,14 @@
+div .choices{
+    margin-left: 2em;
+}
+
+div .choices .outro-choice{
+    display: inline;
+    width: 30%;
+    height: 2em;
+    margin-left: 1.5em;
+}
+
+h5 {
+    color: red;
+}

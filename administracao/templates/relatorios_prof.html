@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% load static %}
+{% load admin_extras %}
+{% load bootstrap_pagination %}
+
+{% block extra_css %}
+{{ form.media.css }}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+{% endblock %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li><a href="">Início</a></li>
+    <li class="active">Relatórios</li>
+</ol>
+{% endblock %}
+
+
+{% block content %}
+<h1>Relatórios de {{estabelecimento.nome_fantasia}}({{estabelecimento.codigo_cnes}})</h1>
+<hr>
+<figure class="highcharts-figure">
+    <div class="row">
+        <div class="col-md-12">
+            <div id="container"></div>
+
+        </div>
+        {% for key, values in graficos.items %}
+        <div class="col-md-12 col-sm-12">
+            <div id="pizza-{{key}}"></div>
+        </div>
+        {% endfor %}
+        
+    </div>
+    
+</figure>
+{% endblock %}
+
+
+{% block extra_js %}
+{{ form.media.js }}
+<script type="text/javascript">
+    $(function(){
+        var dados = {{graficos|safe}};
+        $.each(dados, function (key, value) {
+            console.log(key, value);
+            Highcharts.chart("pizza-"+key, {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Estoque das vacinas '
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %<br>total: {point.y}'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Brands',
+                    colorByPoint: true,
+                    data: value,
+                }]
+            });
+        });
+
+        Highcharts.chart('container', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Quantidade de aplicações de cada vacina no mês atual'
+            },
+            xAxis: {
+                categories: {{graficos_barra.0|safe}},
+                title: {
+                    text: null
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Aplicaçoes de vacina',
+                    align: 'high'
+                },
+                labels: {
+                    overflow: 'justify'
+                }
+            },
+            tooltip: {
+                valueSuffix: ''
+            },
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -40,
+                y: 80,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor:
+                    Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+                shadow: true
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: 'Aplicaçoes',
+                data: {{graficos_barra.1|safe}}
+            }]
+        });
+
+    });
+</script>
+{% endblock %}

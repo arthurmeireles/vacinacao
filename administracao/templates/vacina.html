@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% load static %}
+{% load admin_extras %}
+{% load bootstrap_pagination %}
+
+{% block extra_css %}
+{{ form.media.css }}
+<style>
+    td{
+        width: 100%;
+    }
+</style>
+
+{% endblock %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li><a href="">Início</a></li>
+    <li class="active">Vacinas</li>
+</ol>
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-md-9">
+        <h2 class="custom-page-title">Vacinas ({{ vacinas.paginator.count }})</h2>
+    </div>
+    <div class="clearfix visible-xs-block visible-sm-block"><br></div>
+    {% if request.session.perfil == "coordenador" %}
+    <div class="col-md-3">
+        <a href="{% url 'nova_vacina' %}" class="btn btn-primary btn-block">
+            Nova Vacina
+        </a>
+    </div>
+    {% endif %}
+</div>
+<div class="underline"></div>
+
+{% if form.errors %}
+<div class="alert alert-warning alert-dismissable">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+    Verifique os campos do filtro
+</div>
+{% endif %}
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a class="a-span" role="button" data-toggle="collapse" data-parent="#accordion"
+                   href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Busca
+                </a>
+            </h4>
+        </div>
+
+        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+                {{ form.errors }}
+
+                <form action="" method="get">
+                    <div class="row">
+                        {% for field in form %}
+                        <div class="{% if forloop.counter < 5 %} col-md-12 {% else %} col-md-6 {% endif %}">
+                            <div class="form-group">
+                                {{ field.label_tag }}
+                                {{ field|add_css_class:"form-control" }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="underline"></div>
+
+                    <button class="btn btn-success pull-right" type="submit">Buscar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr class="success">
+            <th>Nome</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for vacina in vacinas %}
+        <tr>
+            <td>{{ vacina.nome }}</td>
+            <td>
+                <a href="{% url 'editar_vacina' vacina.id %}"
+                   class="btn btn-info btn-sm">
+                    Editar
+                </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td class="text-center" colspan="7">Nenhuma vacina disponivel</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<nav class="visible-lg visible-md" aria-label="Page navigation">
+    <ul class="pagination">
+        {% bootstrap_paginate vacinas range=5 show_prev_next="true" show_first_last="true" %}
+    </ul>
+</nav>
+
+<nav class="visible-sm visible-xs" aria-label="Page navigation">
+    <ul class="pagination">
+        {% bootstrap_paginate vacinas range=3 show_prev_next="true" show_first_last="true" %}
+    </ul>
+</nav>
+{% endblock %}
+
+
+{% block extra_js %}
+{{ form.media.js }}
+{% endblock %}

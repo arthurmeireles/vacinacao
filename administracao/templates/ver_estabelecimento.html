@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <!-- Coloque aqui seus arquivos de estilo -->
+{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="/">Início</a></li>
+        <li><a href="{% url 'estabelecimentos' %}">Estabelecimentos de Saúde</a></li>
+        <li class="active">Ver Estabelecimento</li>
+    </ol>
+{% endblock %}
+
+
+{% block content %}
+    <h2 class="page-title">
+        {{ estabelecimento.codigo_cnes }} - {{ estabelecimento.nome }}
+    </h2>
+
+    <div class="panel-group" id="accordion4" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-primary">
+            <div class="panel-heading" role="tab">
+                <h4 class="panel-title">
+                    Detalhes do Estabelecimento
+                </h4>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr class="success">
+                        <th class="text-center">Tipo</th>
+                        <th class="text-center">Quantidade</th>
+                        <th class="text-center">Ações</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr class="text-center">
+                        <td><strong>Número de Profissionais</strong></td>
+                        <td>{{ profissionais.0 }}</td>
+                        <td><a href="/admin/usuarios/?&estabelecimento={{ estabelecimento.id }}"
+                               class="btn btn-sm btn-primary">Visualizar</a></td>
+                    </tr>
+                    <tr class="text-center">
+                        <td><strong>Número de Teleconsultas</strong></td>
+                        <td>{{ teleconsultas }}</td>
+                        <td><a href="/admin/consultas/?&estabelecimento={{ estabelecimento.id }}"
+                               class="btn btn-sm btn-primary">Visualizar</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="underline"></div>
+
+    <a class="btn btn-default" href="{% url 'estabelecimentos' %}">Voltar</a>
+{% endblock %}
+
+
+{% block extra_js %}
+{% endblock %}

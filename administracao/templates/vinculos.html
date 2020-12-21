@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+{% load admin_extras %}
+{% load bootstrap_pagination %}
+
+{% block extra_css %}
+{{ form.media.css }}
+{% endblock %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li><a href="">Início</a></li>
+    <li class="active">Alterar Vínculo</li>
+</ol>
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-md-9">
+        <h2 class="custom-page-title">Alterar Vínculo</h2>
+    </div>
+    <div class="clearfix visible-xs-block visible-sm-block"><br></div>
+</div>
+<div class="underline"></div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr class="success">
+            <th>CNES</th>
+            <th>Estabelecimento</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for vinculo in vinculos %}
+        <tr>
+            <td>{{ vinculo.estabelecimento.codigo_cnes }}</td>
+            <td>{{ vinculo.estabelecimento.nome_fantasia }}</td>
+            <td>
+                <a href="{% url 'alterar_vinculo' %}?vinculo_id={{vinculo.id}}"
+                   class="btn btn-primary btn-sm">
+                    Selecionar
+                </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td class="text-center" colspan="7">Nenhum vínculo disponivel</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+
+{% block extra_js %}
+{{ form.media.js }}
+<script type="text/javascript">
+    $(function(){
+        setSelect2($("#id_municipio"), "{% url 'buscar_municipio' %}");
+        $(".select2").css("width", "100%");
+    });
+</script>
+{% endblock %}

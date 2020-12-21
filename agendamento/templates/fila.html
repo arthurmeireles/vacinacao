@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+{% load admin_extras %}
+{% load bootstrap_pagination %}
+
+{% block extra_css %}
+{{ form.media.css }}
+
+{% endblock %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li><a href="">Início</a></li>
+    <li class="active">Fila</li>
+</ol>
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-md-9">
+        <h2 class="custom-page-title">Fila </h2>
+    </div>
+    <div class="clearfix visible-xs-block visible-sm-block"><br></div>
+    <div class="col-md-3">
+        <a href="{% url 'novo_agendamento' %}" class="btn btn-primary btn-block">
+            Cadastrar Agendamento
+        </a>
+    </div>
+</div>
+<div class="underline"></div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr class="success">
+            <th>Data</th>
+            <th>Vacina</th>
+            <th>Estabelecimento</th>
+            <th>Cidade</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for agendamento in agendamentos %}
+        <tr>
+            <td>{{ agendamento.data|date:"d/m/Y H:i" }}</td>
+            <td>{{ agendamento.vacina.nome }}</td>
+            <td>
+                {{ agendamento.estabelecimento.nome_fantasia }}
+                </td>
+            <td>{{ agendamento.estabelecimento.municipio.nome}}/{{agendamento.estabelecimento.municipio.estado.sigla}}</td>
+
+        </tr>
+        {% empty %}
+        <tr>
+            <td class="text-center" colspan="7">Nenhum agendamento.</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<nav class="visible-lg visible-md" aria-label="Page navigation">
+    <ul class="pagination">
+        {% bootstrap_paginate agendamentos range=5 show_prev_next="true" show_first_last="true" %}
+    </ul>
+</nav>
+
+<nav class="visible-sm visible-xs" aria-label="Page navigation">
+    <ul class="pagination">
+        {% bootstrap_paginate agendamentos range=3 show_prev_next="true" show_first_last="true" %}
+    </ul>
+</nav>
+{% endblock %}
+
+
+{% block extra_js %}
+{{ form.media.js }}
+<script>
+    let QUESTION_ID = '{{ question.id }}';
+    let updateSocket;
+    function connectSocket() {
+        updateSocket = new WebSocket(
+            'ws://' + window.location.host +
+            '/ws/polls/' + QUESTION_ID);
+        updateSocket.onmessage = function(e) {
+            console.log("Received a message from the socket:", e.data);
+        };
+        updateSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly; reconnecting');
+            setTimeout(connectSocket, 1000);
+        };
+        updateSocket.onopen = function(e) {
+            console.log("Socket connected; sending a ping");
+            updateSocket.send("echo");
+        }
+    }
+    connectSocket();
+    </script>
+{% endblock %}

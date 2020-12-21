@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+{% load admin_extras%}
+{% block extra_css %}
+{{ form.media.css }}
+{% endblock %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li><a href="/">Início</a></li>
+    <li><a href="{% url 'municipios' %}">Municípios</a></li>
+    <li class="active">Novo</li>
+</ol>
+{% endblock %}
+
+
+{% block content %}
+<h2 class="page-title">Municipio</h2>
+
+<form id="dados" class="underline-form" action="" method="post">
+    {% csrf_token %}
+
+    <div class="panel panel-primary">
+        <div class="panel-heading"><h4 class="panel-title">Dados</h4></div>
+
+        <div class="panel-body">
+            {% for field in form %}
+                {{ field.errors }}
+
+                <div class="form-group">
+                    {{ field.label_tag }}
+
+                    {{ field|add_css_class:"form-control" }}
+
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</form>
+
+<button type="submit" form="dados" name="salvar" class="btn btn-success pull-right">
+    Salvar Município
+</button>
+<a class="btn btn-default" href="{% url 'municipios' %}">Cancelar</a>
+{% endblock %}
+
+
+{% block extra_js %}
+    {{ form.media.js }}
+
+    <script src="{% static 'js/select2.full.min.js' %}"></script>
+
+{% endblock %}

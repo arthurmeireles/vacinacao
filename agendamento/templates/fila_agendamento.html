@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+{% load admin_extras %}
+{% load bootstrap_pagination %}
+
+{% block extra_css %}
+{{ form.media.css }}
+
+{% endblock %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li><a href="">Início</a></li>
+    <li class="active">Fila de Agendamentos</li>
+</ol>
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="custom-page-title">Fila ({{estabelecimento.nome_fantasia}})</h2>
+    </div>
+    <div class="clearfix visible-xs-block visible-sm-block"><br></div>
+
+</div>
+<div class="underline"></div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr class="success">
+            <th>Paciente</th>
+            <th>Hora</th>
+            <th>Vacina</th>
+            {% if request.session.perfil == "profissional" %}
+            <th>Ações</th>
+            {%endif%}
+        </tr>
+        </thead>
+
+        <tbody id="dados">
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+{{ form.media.js }}
+<script>
+    function aplicar(id){
+        url = "/agendamentos/chamar/"+id;
+        $.ajax({
+            url: url,
+            context: "application/json",
+            success: function (data) {
+                alert("Aplicação registrada"); 
+            }
+        });
+    }
+
+    $(function(){
+        var cont = 0;
+        $('body').on('click', 'button.chamar', function() {
+            aplicar($(this).attr("data-id"));
+        });
+        window.setInterval(function(){
+            $.ajax({
+                url: "{% url 'fila_agendamento_json' %}",
+                context: "application/json",
+                success: function (data) {
+                    $("#dados").html("");
+                    var perfil = "{{request.session.perfil}}";
+                    var user_id = "{{request.user.id}}";
+                    $.each(data, function( index, value ) {
+                        if (perfil == "profissional")
+                            $("#dados").append("<tr><td>"+value.usuario__user__first_name+"</td>" + "<td>"+value.data+"</td>" + "<td>"+value.vacina__nome+"</td>" + "<td><button data-id='"+value.id+"' class='btn btn-sm btn-primary chamar'>Chamar e Aplicar</button></td></tr>");
+                        else
+                            $("#dados").append("<tr><td>"+value.usuario__user__first_name+"</td>" + "<td>"+value.data+"</td>" + "<td>"+value.vacina__nome+"</td></tr>");
+                        });
+                    
+                    if(data[0].user_id == user_id){
+                        if (cont % 60 == 0)
+                            alert("Voce é o primeiro da fila");
+                        cont += 1;
+                    }
+                    
+                }
+            });
+        }, 1000);
+        
+    })
+</script>
+{% endblock %}

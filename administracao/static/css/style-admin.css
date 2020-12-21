@@ -1,0 +1,110 @@
+.breadcrumb {
+    background-color: #e6e6e6;
+}
+.navbar-brand img {
+    margin-top: -10px;
+}
+.page-title {
+    border-bottom: 1px solid #CCC;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+.list-group-item {
+    border-color: #dcdcdc;
+}
+.color-white {
+    color: white !important;
+}
+.underline-form {
+    border-bottom: 1px solid #CECECE;
+    margin-bottom: 20px;
+}
+.pb20 {
+    padding-bottom: 20px;
+}
+.spam-perfil {
+    font-size: 1.2em;
+}
+.box {
+    padding: 10px 10px 3px 10px;
+    background-color: #DDD; /* #ECF0F1 */
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+.underline {
+    border-bottom: 1px solid #CCC;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.alert {
+    margin-bottom: 10px !important;
+}
+.select2-container {
+    border: 1px solid #dce4ec!important;
+    border-radius: 4px!important;
+}
+.select2-container--default .select2-selection--single {
+    border: 1px solid #dce4ec !important;
+    border-radius: 4px !important;
+}
+.select2-container .select2-selection--single {
+    height: 43px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 40px !important;
+}
+.select2-container .select2-selection--single .select2-selection__rendered {
+    padding-left: 14px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    top: 8px !important;
+    right: 10px !important;
+}
+.custom-page-title {
+    margin: 5px 0px 0px 0px;
+}
+.dropdown-user {
+    margin: 0px 10px 0px 10px;
+}
+.p-span .label {
+    font-size: 1.0em;
+    margin-left: 6px;
+}
+.table-span .label {
+    font-size: 0.9em;
+    margin-left: 6px;
+}
+.a-span span {
+    margin-right: 6px;
+}
+.panel-custom {
+    border-color: #DCE4EC;
+    border-width: 2px;
+}
+.panel-default > .panel-heading {
+    background-color: #E6E6E6 !important;
+}
+pre {
+    padding: 0px !important;
+}
+pre code {
+    margin-top: -19px !important;
+    margin-bottom: -37px !important;
+}
+.panel-body .errorlist {
+    border: 2px solid red;
+    border-radius: 4px;
+}
+.panel-body .errorlist li {
+    padding: 10px;
+    font-weight: bold;
+}
+.panel-body .errorlist li .errorlist {
+    border: none;
+}
+.select2-results__option[aria-selected=true] {
+    display: none;
+}
+.select2-selection__clear {
+    margin-right: 15px;
+}

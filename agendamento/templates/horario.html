@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% load static %}
+{% load admin_extras %}
+{% load bootstrap_pagination %}
+
+{% block extra_css %}
+{{ form.media.css }}
+
+{% endblock %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li><a href="">Início</a></li>
+    <li class="active">Horários</li>
+</ol>
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-md-9">
+        <h2 class="custom-page-title">Horários Para Agendamento - {{estabelecimento.nome_fantasia}}</h2>
+    </div>
+    <div class="clearfix visible-xs-block visible-sm-block"><br></div>
+    <div class="col-md-3">
+        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-horarios"
+        data-backdrop="static" data-keyboard="false">
+            Cadastrar Horários
+        </button>
+    </div>
+</div>
+<div class="underline"></div>
+
+{% if form.errors %}
+<div class="alert alert-warning alert-dismissable">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+    Verifique os campos do filtro
+</div>
+{% endif %}
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a class="a-span" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                    aria-expanded="true" aria-controls="collapseOne">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Busca
+                </a>
+            </h4>
+        </div>
+
+        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+                {{ form.errors }}
+
+                <form action="" method="get">
+                    <div class="row">
+                        {% for field in form %}
+                        <div class="{% if forloop.counter < 5 %} col-md-12 {% else %} col-md-6 {% endif %}">
+                            <div class="form-group">
+                                {{ field.label_tag }}
+                                {{ field|add_css_class:"form-control" }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="underline"></div>
+
+                    <button class="btn btn-success pull-right" type="submit">Buscar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <ul class="nav nav-tabs">
+        {% for e in estoque %}
+        <li class="{% if forloop.counter == 1%}active{%else%} {%endif%}">
+            <a href="#{{forloop.counter}}" data-toggle="tab">{{e.vacina.nome}}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <div class="tab-content ">
+        {% for e in estoque %}
+        <div class="tab-pane {% if forloop.counter == 1%}active{%else%} {%endif%}" id="{{forloop.counter}}">
+            <div class="table-responsive">
+
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr class="success">
+                            <th>Data/Hora</th>
+                            <th>Vagas Disponíveis</th>
+                            <th>Vagas Agendadas</th>
+
+                        </tr>
+                    </thead>
+            
+                    <tbody>
+                        {% for item in horarios|get_item:e.vacina.nome %}
+                        <tr>
+                            {% for i in item %}
+                            {% if forloop.counter == 1%}
+                                <td>{{ i|date:"d/m/Y H:i" }}</td>
+                            {% else %}
+                                <td>{{ i }}</td>
+                            {% endif %}
+                            {% endfor %}
+                            <!-- <td>{{ item }}</td> -->
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td>Nenhum horário cadastrado</td>
+                            <td></td>
+                            <!-- <td>{{ item }}</td> -->
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="modal fade" id="modal-horarios" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-center">Selecione a Vacina</h4>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    {% for e in estoque %}
+                    <li>
+                        <a href="{% url 'editar_horario' e.vacina.id %}">{{e.vacina.nome}}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block extra_js %}
+{{ form.media.js }}
+{% endblock %}
