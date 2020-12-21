@@ -57,12 +57,8 @@ python manage.py migrate
 
 A aplicação já vem com três usuários:
 
-* cap-solicitante
-* cap-regulador
-* cap-especialista
+* Paciente: 89077810013
+* Coordenador SUS: 92347763059
+* Profissional Saude: 44901141090
 
-Todos os três usuários possuem senha 'treinamento' (sem as aspas). Caso deseje, crie um administrador.
-
-```sh
-python manage.py createsuperuser
-```
+Todos os três usuários possuem senha 'treinamento' (sem as aspas).
