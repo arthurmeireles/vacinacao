@@ -72,6 +72,9 @@
                 <li class="visible-sm visible-xs">
                     <a href="{% url 'vacinas' %}">Vacinas</a>
                 </li>
+                <li class="visible-sm visible-xs">
+                    <a href="{% url 'relatorios' %}">Relatórios</a>
+                </li>
                 {% endif %}
             </ul>
 
@@ -147,6 +150,7 @@
                 {% endif %}
                 {% if request.session.perfil == "coordenador" or request.session.perfil == "profissional"%}
                 <a href="{% url 'vacinas' %}" class="list-group-item">Vacinas</a>
+                <a href="{% url 'relatorios' %}" class="list-group-item">Relatórios</a>
                 {% endif %}
             </div>
         </div>
