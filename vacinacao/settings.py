@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+import django_heroku
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'k6vmz^igol^-nwvjzd$-^iu)y1w9-l)qjucvw4x0=6(spsy88b'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -92,8 +94,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'vacinacao4',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'USER': "postgres",
+        'PASSWORD': "postgres",
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -204,3 +206,5 @@ EMAIL_USE_TLS = True
 #         },
 #     },
 # }
+
+django_heroku.settings(locals())
