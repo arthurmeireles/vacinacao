@@ -1,26 +1,24 @@
-# Teleconsultoria 2.0
-
-Caso seu computador não esteja configurado para desenvolver projetos Django use o [tutorial](https://github.com/jdoper/config_python).
+# Sistema de vacinacao
 
 ## Configurando seu ambiente
 
 Realize o clone do projeto e entre no diretório baixado
 
 ```sh
-git clone http://git.lais.huol.ufrn.br/telessaude/teleconsultoria2.0.git
-cd teleconsultoria2.0
+git clone https://github.com/beatriz-soares/vacinacao.git
+cd vacinacao
 ```
 
 Crie uma nova virtualenv (o exemplo abaixo é feito usando virtualenvwrapper):
 
 ```sh
-mkvirtualenv teleconsultoria2
+mkvirtualenv vacinacao
 ```
 
 Instale as dependências:
 
 ```sh
-workon teleconsultoria2
+workon vacinacao
 pip install -r requirements.txt
 ```
 
@@ -29,22 +27,25 @@ pip install -r requirements.txt
 Crie um novo banco de dados:
 
 ```sh
-sudo -u postgres psql -U postgres -c "CREATE DATABASE teleconsultoria2;"
+sudo -u postgres psql -U postgres -c "CREATE DATABASE vacinacao;"
+```
+
+Ajuste nas settings o username e senha do seu database
+
+```sh
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'vacinacao',
+        'USER': "seu_user",
+        'PASSWORD': "sua_senha",
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 ```
 
 Crie as tabelas do projeto:
-
-```sh
-python manage.py migrate
-```
-
-Insira os dados iniciais para o banco de dados da aplicação:
-
-```sh
-sudo -u postgres psql -U postgres -d teleconsultoria2 -a -f initial_data.sql
-```
-
-Sincronize o banco:
 
 ```sh
 python manage.py migrate
