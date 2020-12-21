@@ -277,36 +277,46 @@ def nova_vacina(request):
 @login_required()
 def editar_vacina(request, id):
     vacina = get_object_or_404(Vacina, pk=id)
+    form = VacinaForm(request.POST or None, instance=vacina)
     if request.session.get("perfil") == "coordenador":
         estoques = EstoqueVacina.objects.filter(vacina=vacina)
     elif request.session.get("perfil") == "profissional":
+        form.fields["nome"].widget.attrs['readonly'] = True
         estoques = EstoqueVacina.objects.filter(vacina=vacina,
             estabelecimento=ProfissionalVinculo.objects.get(pk=request.session.get("vinculo_id")).estabelecimento)
     initial = [{"estabelecimento": e.estabelecimento,
                 "qtd": e.qtd} for e in estoques]
-    form = VacinaForm(request.POST or None, instance=vacina)
+    
     myformset = VacinaEstoqueFormSet(request.POST or None, initial=initial)
-
+    
+    if request.session.get("perfil") == "profissional":
+        for f in myformset:
+            vinculo = ProfissionalVinculo.objects.get(pk=request.session.get("vinculo_id"))
+            f.fields["estabelecimento"].queryset = EstabelecimentoSaude.objects.filter(pk=vinculo.estabelecimento.id)
+    
     if request.POST:
         if form.is_valid():
             vacina = form.save()
+            cont = 0
             for f in myformset:
-                if f.is_valid():
-                    estoque = EstoqueVacina.objects.filter(estabelecimento=f.cleaned_data.get("estabelecimento"),
-                                                            vacina=vacina)
-                    if f.cleaned_data.get("estabelecimento"):
-                        if estoque.exists():
-                            estoque = estoque.first()
-                            estoque.qtd = f.cleaned_data.get("qtd", 0)
-                            estoque.save()
-                        else:
-                            EstoqueVacina.objects.create(vacina=vacina,
-                                                    estabelecimento=f.cleaned_data.get("estabelecimento"),
-                                                    qtd=f.cleaned_data.get("qtd", 0))
-                else:
-                    # if f.cleaned_data.get("estabelecimento") or f.cleaned_data.get("qtd"):
-                    messages.warning(request, "Verifique os dados passados")
-                    return render(request, "nova_vacina.html", locals())
+                if cont == 0 or request.session.get("perfil") == "coordenador":
+                    if f.is_valid():
+                        estoque = EstoqueVacina.objects.filter(estabelecimento=f.cleaned_data.get("estabelecimento"),
+                                                                vacina=vacina)
+                        if f.cleaned_data.get("estabelecimento"):
+                            if estoque.exists():
+                                estoque = estoque.first()
+                                estoque.qtd = f.cleaned_data.get("qtd", 0)
+                                estoque.save()
+                            else:
+                                EstoqueVacina.objects.create(vacina=vacina,
+                                                        estabelecimento=f.cleaned_data.get("estabelecimento"),
+                                                        qtd=f.cleaned_data.get("qtd", 0))
+                    else:
+                        # if f.cleaned_data.get("estabelecimento") or f.cleaned_data.get("qtd"):
+                        messages.warning(request, "Verifique os dados passados")
+                        return render(request, "nova_vacina.html", locals())
+                cont += 1
             
             messages.success(request, "Vacina editada com sucesso.")
             return HttpResponseRedirect(reverse('vacinas'))
