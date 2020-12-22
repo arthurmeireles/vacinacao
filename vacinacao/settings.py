@@ -96,7 +96,7 @@ DATABASES = {
         'NAME': 'vacinacao5',
         'USER': "postgres",
         'PASSWORD': "postgres",
-        'HOST': "db",
+        'HOST': "localhost",
         'PORT': '5432',
     }
 }
