@@ -6,26 +6,30 @@ import csv
 from django.core.management import call_command
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User, Group
+from django.utils import timezone
 
 
 def dados_iniciais(apps, schema_editor):
     paciente = User.objects.create(username="89077810013",
                                         password=make_password("treinamento"),
                                         email="email@email.com",
-                                        first_name="Fulano Paciente")
+                                        first_name="Fulano Paciente",
+                                        last_login=timezone.now())
     usuario_paciente = Usuario.objects.create(user=paciente,
                                                 cpf="89077810013")
     coordenador = User.objects.create(username="92347763059",
                                         password=make_password("treinamento"),
                                         email="coord@email.com",
-                                        first_name="Ciclano Coordenador SUS")
+                                        first_name="Ciclano Coordenador SUS",
+                                        last_login=timezone.now())
     usuario_coord = Usuario.objects.create(user=coordenador,
                                                 cpf="92347763059")
 
     profissional = User.objects.create(username="44901141090",
                                         password=make_password("treinamento"),
                                         email="prof@email.com",
-                                        first_name="Beltrano Profissional Saude")
+                                        first_name="Beltrano Profissional Saude",
+                                        last_login=timezone.now())
     usuario_prof = Usuario.objects.create(user=profissional,
                                                 cpf="44901141090")
 

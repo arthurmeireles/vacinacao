@@ -54,8 +54,6 @@ def estabelecimento_saude(request):
 @login_required()
 def ver_estabelecimento(request, id):
     estabelecimento = get_object_or_404(EstabelecimentoSaude, pk=id)
-    # profissionais = Usuario.objects.filter(vinculos__estabelecimento=estabelecimento).distinct().count(),
-    # teleconsultas = Teleconsulta.objects.filter(autor__estabelecimento=estabelecimento).distinct().count()
 
     return render(request, "ver_estabelecimento.html", locals())
 
@@ -194,8 +192,6 @@ def municipio(request):
 @login_required()
 def ver_municipio(request, id):
     municipio = get_object_or_404(Municipio, pk=id)
-    # profissionais = Usuario.objects.filter(vinculos__estabelecimento=estabelecimento).distinct().count(),
-    # teleconsultas = Teleconsulta.objects.filter(autor__estabelecimento=estabelecimento).distinct().count()
 
     return render(request, "ver_municipio.html", locals())
 

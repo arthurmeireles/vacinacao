@@ -93,10 +93,10 @@ WSGI_APPLICATION = 'vacinacao.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'vacinacao4',
+        'NAME': 'vacinacao5',
         'USER': "postgres",
         'PASSWORD': "postgres",
-        'HOST': 'localhost',
+        'HOST': "db",
         'PORT': '5432',
     }
 }

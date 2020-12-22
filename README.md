@@ -69,3 +69,6 @@ A aplicação já vem com três usuários:
 * Profissional Saude: 44901141090
 
 Todos os três usuários possuem senha 'treinamento' (sem as aspas).
+
+O link do Heroku com o sistema rodando é o:
+* https://sisvacinacao.herokuapp.com/
