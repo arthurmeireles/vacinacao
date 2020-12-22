@@ -148,7 +148,7 @@ def agendar_vacinacao(request):
                     agendamento.data.strftime("%d/%m/%Y %H:%M"))
             send_mail(u'Agendamento de Vacina',
                     mensagem,
-                  u'lais.ufrn@gmail.com', [request.user.email], fail_silently=False)
+                  u'lais.ufrn@gmail.com', [request.user.email], fail_silently=True)
             messages.success(request, "Agendamento realizado com sucesso.")
             return HttpResponseRedirect(reverse('agendamentos'))
         else:
@@ -243,7 +243,7 @@ def chamar_fila(request, id):
                     vacina.data.strftime("%d/%m/%Y %H:%M"))
     send_mail(u'Registro de Vacina',
             mensagem,
-            u'lais.ufrn@gmail.com', [agendamento.usuario.user.email], fail_silently=False)
+            u'lais.ufrn@gmail.com', [agendamento.usuario.user.email], fail_silently=True)
 
     return JsonResponse([{"response":200}], safe=False)
     

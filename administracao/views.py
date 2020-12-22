@@ -521,7 +521,7 @@ def cadastro(request):
             """%(user.first_name)
             send_mail(u'Cadastro no Sistema de Vacinação',
                     mensagem,
-                  u'lais.ufrn@gmail.com', [user.email], fail_silently=False)
+                  u'lais.ufrn@gmail.com', [user.email], fail_silently=True)
             messages.success(request, "Usuário cadastrado com sucesso.")
             return HttpResponseRedirect(reverse('login_aplicacao'))
         else:

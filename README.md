@@ -44,6 +44,13 @@ DATABASES = {
     }
 }
 ```
+Ajuste também nas settings o provedor de email
+
+
+```sh
+EMAIL_HOST_USER = 'seu_email@gmail.com'
+EMAIL_HOST_PASSWORD = 'sua_senha'
+```
 
 Crie as tabelas do projeto:
 
